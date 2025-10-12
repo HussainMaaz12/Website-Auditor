@@ -1,0 +1,4 @@
+.env
+
+# Node modules folder for the root (if any)
+/node_modules
