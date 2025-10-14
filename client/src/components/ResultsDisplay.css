@@ -1,0 +1,318 @@
+
+
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slide-down {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.results-display-container {
+    margin-top: 50px;
+    width: 100%;
+    animation: fade-in 0.6s ease-out;
+}
+
+.pdf-content {
+    padding-bottom: 120px; 
+}
+
+
+.results-summary {
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+
+
+/* --- Summary Cards --- */
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 25px;
+
+}
+
+.summary-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    transition: all 0.35s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border-top-width: 4px;
+    ;
+}
+
+.summary-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+}
+
+.summary-card .count {
+  display: block;
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  line-height: 1;
+}
+
+.summary-card .label {
+  font-size: 1rem;
+  opacity: 0.8;
+  margin: 0;
+}
+/* Individual card color accents */
+.summary-card.violations { 
+    border-top-color: #ff4b4b;
+
+}
+.summary-card.passes {
+    border-top-color: #3ef17f; 
+    
+    }
+.summary-card.incomplete { border-top-color: #ffcc00; }
+
+.summary-card.violations .count { color: #ff4b4b; }
+.summary-card.passes .count { color: #3ef17f; }
+.summary-card.incomplete .count { color: #ffcc00; }
+
+/* --- Violations List --- */
+.violations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.violation-item {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 12px;
+    color: white;
+    overflow: hidden; 
+    transition: all 0.35s ease;
+}
+.violation-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.violation-header {
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.violation-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-grow: 1;
+    margin-right: 15px;
+    min-width: 0; 
+}
+
+.violation-description {
+    margin: 0;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.impact-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #000;
+    flex-shrink: 0;
+    letter-spacing: 0.6px;
+}
+.impact-critical { background: linear-gradient(90deg, #ff0844, #ff7b72); color: #fff; }
+.impact-serious { background: linear-gradient(90deg, #ff8a00, #ffb347); color: #fff; }
+.impact-moderate { background: linear-gradient(90deg, #ffee58, #fff176); color: #333; }
+.impact-minor { background: linear-gradient(90deg, #7aa0ff, #a4b3ff); color: #fff; }
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+    color: rgba(255, 255, 255, 0.7);
+    flex-shrink: 0;
+}
+.toggle-icon.expanded {
+    transform: rotate(180deg);
+}
+
+/* --- Expanded Details Section --- */
+.violation-details {
+    padding: 22px 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    animation: slide-down 0.4s ease-out;
+}
+
+.violation-details p {
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.violation-details strong {
+    color: #fff;
+}
+
+.violation-details a {
+    color: #b39ddb;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.violation-details a:hover {
+    color: #d1c4e9;
+}
+
+.node-list {
+    list-style: none;
+    padding: 15px;
+    margin-top: 15px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    max-height: 230px;
+    overflow-y: auto;
+}
+.node-list li {
+    padding: 8px 0;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    color: #d1d1d1;
+    word-break: break-all;
+}
+.node-list li:last-child {
+    border-bottom: none;
+}
+
+/* --- No Violations --- */
+.no-violations-message {
+    text-align: center;
+    padding: 60px;
+    border-radius: 15px;
+    border: 1px solid rgba(62, 241, 127, 0.3);
+    background: linear-gradient(135deg, rgba(10,40,30,0.8), rgba(0,80,40,0.6));
+}
+.no-violations-message h2 {
+    color: #3ef17f;
+    font-size: 2.4rem;
+    font-weight: 700;
+}
+
+/* --- Floating Action Button --- */
+.fab-download {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 18px 26px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    z-index: 1000;
+    display:flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: 0.4px;
+}
+.fab-download:hover {
+    transform: translateY(-6px) scale(1.08);
+    box-shadow: 0 12px 40px rgba(142, 45, 226, 0.45);
+}
+.fab-download:active {
+    transform: scale(0.98);
+}
+.fab-download svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* --- PDF EXPORT MODE (Light Theme) --- */
+.pdf-export-mode .results-display-container {
+    background-color: white !important;
+    padding: 20px;
+}
+.pdf-export-mode .summary-card,
+.pdf-export-mode .violation-item,
+.pdf-export-mode .no-violations-message {
+    background: white !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1px solid #dee2e6 !important;
+    color: #212529 !important; /* Dark text for PDF */
+    box-shadow: none !important;
+}
+.pdf-export-mode .summary-card .label,
+.pdf-export-mode .violation-details p,
+.pdf-export-mode .toggle-icon { 
+    color: #6c757d !important; 
+}
+.pdf-export-mode .violation-details strong,
+.pdf-export-mode .violation-description { 
+    color: #212529 !important; 
+}
+.pdf-export-mode .node-list { 
+    background-color: #f8f9fa !important; 
+    border-color: #dee2e6 !important; 
+}
+.pdf-export-mode .node-list li { 
+    color: #212529 !important; 
+    border-color: #e9ecef !important; 
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    /* Stack the summary cards on smaller screens */
+    .summary-cards {
+        grid-template-columns: 1fr;
+    }
+    .summary-card .count { font-size: 2.5rem; }
+}
+
+@media (max-width: 600px) { 
+    .fab-download {
+        bottom: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        font-size: 1rem;
+    }
+    .violation-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .violation-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .violation-description {
+        font-size: 0.9rem;
+    }
+    .impact-badge {
+        padding: 5px 12px;
+        font-size: 0.7rem;
+    }
+}

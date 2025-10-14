@@ -1,0 +1,72 @@
+.history-panel {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    padding: 25px;
+    height: fit-content;
+    animation: fade-in-up 1s ease-out;
+}
+
+.history-panel h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.history-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.history-item {
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.history-item:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.history-url {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+.history-violations {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #ff8b8b;
+    background-color: rgba(255, 139, 139, 0.1);
+    padding: 4px 8px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    margin-left: 15px;
+}
+
+.empty-history {
+    text-align: center;
+    padding: 40px 20px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.empty-history svg {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 15px;
+}
