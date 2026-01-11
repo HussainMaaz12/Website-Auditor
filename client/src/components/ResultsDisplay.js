@@ -81,7 +81,6 @@ const ResultsDisplay = ({ results }) => {
     return (
       <div className="results-display-container">
         <p>No results to display.</p>
-        {/* Keep the FAB always visible even here */}
         <button ref={fabRef} className="fab-download" disabled>
           <i dangerouslySetInnerHTML={{ __html: feather.icons.download.toSvg() }} />
           Download PDF
@@ -196,8 +195,7 @@ const ResultsDisplay = ({ results }) => {
           )}
         </div>
       </div>
-
-      {/* ✅ This FAB will never fade again */}
+            
       <button
         ref={fabRef}
         className="fab-download"
