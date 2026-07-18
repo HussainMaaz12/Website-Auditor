@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const path = require('path');
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '.env') });
 connectDB();
 
 const auditRoutes = require('./routes/auditRoutes');
@@ -32,7 +32,7 @@ app.use('/api/audit', auditRoutes);
 app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.get(/(.*)/, (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
 app.listen(PORT, () => {
