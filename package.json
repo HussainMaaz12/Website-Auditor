@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\" \"npm run worker\"",
+    "start": "node server/server.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run worker\"",
     "server": "nodemon server/server.js",
     "client": "cross-env PORT=3001 npm start --prefix client",
     "worker": "node server/worker.js",
