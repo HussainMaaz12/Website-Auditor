@@ -1,33 +1,40 @@
 
 const express = require('express');
-const path = require('path');
+
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
+const path = require('path');
 
 dotenv.config();
 connectDB();
 
 const auditRoutes = require('./routes/auditRoutes');
+const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const requiredEnvVars = ['MONGODB_URI', 'FRONTEND_URL', 'REDIS_URL'];
+const missingVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
+
+if (missingVars.length > 0) {
+    console.error(`FATAL ERROR: Missing required environment variables: ${missingVars.join(', ')}`);
+    process.exit(1);
+}
+
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    optionsSuccessStatus: 200
+}));
 
 app.use(express.json());
 app.use('/api/audit', auditRoutes);
 
+app.use(express.static(path.join(__dirname, '../client/build')));
 
-app.get('/', (req, res) => {
-    
-    res.json({ message: 'Hello! The a11y-auditor server is running successfully.' });
+app.get(/(.*)/, (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-// Remove static serve for client since it's deployed separately on Vercel
-// app.use(express.static(path.join(__dirname, '../client/build')));
-
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../client/build/index.html'));
-// });
-
 app.listen(PORT, () => {
-    console.log(`Hey User ,Server is up and running on http://localhost:${PORT}`);
+    console.log(`Server is up and running on port ${PORT}`);
 });

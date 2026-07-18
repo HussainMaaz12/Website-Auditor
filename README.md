@@ -68,6 +68,36 @@ Building this project was a fantastic learning journey that went beyond just wri
 
 ---
 
+## 🚀 Environment Setup
+
+This project requires environment variables to run locally and in production. We use `.env` files for local development.
+
+### Backend (Server/Worker)
+
+Create a `.env` file in the `server/` directory. You can copy the provided `server/.env.example`:
+
+```bash
+PORT=5000 # Port for the backend server to listen on
+MONGODB_URI=mongodb://localhost:27017/a11yDB # MongoDB connection string
+REDIS_URL=redis://localhost:6379 # Redis connection string for the BullMQ job queue
+FRONTEND_URL=http://localhost:3000 # The URL of the frontend (used for CORS)
+RATE_LIMIT_MAX=10 # Maximum number of audit requests per IP within 15 minutes
+```
+
+**For Render Deployment:** Set these exact same variables in the Render Dashboard under the Environment tab for both the Web Service and the Background Worker (if separated). Replace `FRONTEND_URL` with your actual Vercel domain.
+
+### Frontend (Client)
+
+Create a `.env` file in the `client/` directory. You can copy the provided `client/.env.example`:
+
+```bash
+REACT_APP_API_URL=http://localhost:5000 # The URL of the backend API
+```
+
+**For Vercel Deployment:** Set `REACT_APP_API_URL` to your production Render URL (e.g., `https://your-backend.onrender.com`) in the Vercel Dashboard under Settings > Environment Variables. Make sure to trigger a new deployment after saving so the React build can inject the variable.
+
+---
+
 ## 🚀 Future Improvements
 
 * **User Accounts & Audit History:** Allow users to sign up and save their audit reports to a personal dashboard.

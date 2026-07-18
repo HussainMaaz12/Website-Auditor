@@ -4,7 +4,6 @@ body.loading-cursor {
     cursor: wait;
 }
 
-
 .page-layout {
     position: relative; 
     z-index: 10;
@@ -32,15 +31,16 @@ body.loading-cursor {
 }
 
 .auditor-header h1 {
-    font-size: 3rem;
+    font-size: 3.2rem;
     font-weight: 700;
     margin: 0;
     letter-spacing: -1px;
+    text-shadow: 0 4px 25px rgba(255, 255, 255, 0.4);
 }
 
 .auditor-header p {
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.85);
     margin-top: 0.5rem;
 }
 
@@ -52,8 +52,8 @@ body.loading-cursor {
 .input-group {
     display: flex;
     background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--glass-border);
     border-radius: 12px;
     padding: 0.5rem;
@@ -65,41 +65,50 @@ body.loading-cursor {
     flex-grow: 1;
     background: transparent;
     border: none;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 1.25rem;
     font-size: 1rem;
-    color: var(--text-light);
+    color: white;
     outline: none;
 }
 
 .url-input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .audit-button {
-    background: white;
-    color: #1a1a2e;
+    background: var(--brand-primary);
+    color: #ffffff;
     border: none;
     border-radius: 8px;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
+    padding: 0.75rem 1.75rem;
+    font-size: 1.05rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 120px;
+    min-width: 150px;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
 }
 
-.audit-button:hover {
-    background: #f0f0f0;
-    transform: scale(1.05);
+.audit-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+    background: var(--brand-primary-hover);
+}
+
+.audit-button:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(139, 92, 246, 0.4);
 }
 
 .audit-button:disabled {
     cursor: not-allowed;
-    background-color: #ccc;
+    opacity: 0.7;
     transform: none;
+    box-shadow: none;
 }
 
 .button-spinner svg {
@@ -189,3 +198,82 @@ body.loading-cursor {
     width: 20px;
     height: 20px;
 }
+
+.quick-start-chips {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+.chip-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+.glass-chip {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 6px 14px;
+    color: white;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+.glass-chip:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.error-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--accent-critical);
+    border-radius: 15px;
+    padding: 25px;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 4px 20px rgba(255, 107, 107, 0.2);
+}
+.error-icon {
+    color: var(--accent-critical);
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+}
+.error-content {
+    flex-grow: 1;
+    text-align: left;
+}
+.error-content h3 {
+    color: var(--accent-critical);
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.error-content p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+}
+.retry-button {
+    background: rgba(255, 107, 107, 0.15);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    color: var(--accent-critical);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.retry-button:hover {
+    background: rgba(255, 107, 107, 0.25);
+    transform: translateY(-1px);
+}
+

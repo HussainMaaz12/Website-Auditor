@@ -7,20 +7,16 @@
   pointer-events: none;
 }
 
-
 .app-wrapper {
   position: relative;
   width: 100%;
   min-height: 100vh; 
 }
 
-
 .content-container {
   position: relative;
   z-index: 10; 
 }
-
-
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

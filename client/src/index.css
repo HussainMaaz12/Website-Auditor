@@ -3,8 +3,16 @@
 :root {
     --bg-dark: #1a202c;
     --text-light: #edf2f7;
-    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-bg: rgba(255, 255, 255, 0.08);
     --glass-border: rgba(255, 255, 255, 0.15);
+
+    --accent-critical: #ff4b4b; 
+    --accent-serious: #f59e0b; 
+    --accent-moderate: #fbbf24; 
+    --accent-minor: #14b8a6; 
+
+    --brand-primary: linear-gradient(135deg, #7c3aed 0%, #0d9488 100%);
+    --brand-primary-hover: linear-gradient(135deg, #6d28d9 0%, #0f766e 100%);
 }
 
 * {
@@ -16,13 +24,13 @@
 body {
     font-family: 'Inter', sans-serif;
     color: var(--text-light);
+    background: radial-gradient(circle at top right, #2d3748, #1a202c 60%);
     background-color: var(--bg-dark);
     
     min-height: 100vh; 
     overflow-x: hidden; 
     position: relative;
 }
-
 
 .wave-container {
     position: fixed; 

@@ -1,0 +1,168 @@
+.accessibility-score-container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+}
+
+.gauge-wrapper {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gauge-svg {
+    transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
+}
+
+.gauge-track {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 12;
+}
+
+.gauge-progress {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 12;
+    stroke-linecap: round;
+}
+
+.gauge-center-text {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.gauge-score {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1;
+    color: white;
+}
+
+.gauge-out-of {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 5px;
+}
+
+.score-details {
+    text-align: center;
+    margin-top: 25px;
+    width: 100%;
+}
+
+.score-label {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    transition: color 0.5s ease;
+}
+
+.severity-breakdown {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.breakdown-item {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.breakdown-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.breakdown-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-right: 6px;
+}
+
+.breakdown-count {
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+}
+
+.dot-critical { background-color: var(--accent-critical); box-shadow: 0 0 8px var(--accent-critical); }
+.dot-serious { background-color: var(--accent-serious); box-shadow: 0 0 8px var(--accent-serious); }
+.dot-moderate { background-color: var(--accent-moderate); box-shadow: 0 0 8px var(--accent-moderate); }
+.dot-minor { background-color: var(--accent-minor); box-shadow: 0 0 8px var(--accent-minor); }
+
+.pdf-export-mode .accessibility-score-container {
+    background: white !important;
+    border: 1px solid #dee2e6 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+
+.pdf-export-mode .gauge-score {
+    color: #212529 !important;
+}
+
+.pdf-export-mode .gauge-out-of {
+    color: #6c757d !important;
+}
+
+.pdf-export-mode .gauge-track {
+    stroke: #e9ecef !important;
+}
+
+.pdf-export-mode .breakdown-item {
+    background: #f8f9fa !important;
+    border-color: #dee2e6 !important;
+}
+
+.pdf-export-mode .breakdown-label {
+    color: #6c757d !important;
+}
+
+.pdf-export-mode .breakdown-count {
+    color: #212529 !important;
+}
+
+@media (max-width: 600px) {
+    .gauge-wrapper {
+        width: 160px;
+        height: 160px;
+    }
+    .gauge-score {
+        font-size: 2.8rem;
+    }
+    .severity-breakdown {
+        gap: 10px;
+    }
+    .breakdown-item {
+        padding: 6px 12px;
+    }
+    .score-label {
+        font-size: 1.2rem;
+    }
+}

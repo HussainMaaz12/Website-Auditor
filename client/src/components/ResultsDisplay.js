@@ -4,6 +4,7 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { gsap } from 'gsap';
 import feather from 'feather-icons';
+import AccessibilityScore from './AccessibilityScore';
 
 const getImpactColor = (impact) => {
   switch (impact) {
@@ -17,43 +18,40 @@ const getImpactColor = (impact) => {
 const ResultsDisplay = ({ results }) => {
   const [expandedId, setExpandedId] = useState(null);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
+  const [copiedViolationId, setCopiedViolationId] = useState(null);
   const reportRef = useRef(null);
-  const fabRef = useRef(null);
+  const fabGroupRef = useRef(null);
   const countRefs = useRef({});
   const animatedOnce = useRef(false); 
 
   useEffect(() => {
     if (!results?.results) return;
 
-    
     if (!animatedOnce.current) {
       animatedOnce.current = true;
 
-      
       gsap.from('.summary-card', {
         y: 40,
         startAt: { opacity: 1 },
-        
         duration: 0.8,
         stagger: 0.15,
         ease: 'power3.out',
         onComplete: () => gsap.set('.summary-card', { clearProps: 'transform' })
       });
 
-      // Animate the FAB
-      if (fabRef.current) {
-        gsap.from(fabRef.current, {
+      if (fabGroupRef.current) {
+        gsap.from(fabGroupRef.current, {
           y: 80,
           opacity: 1,
           duration: 0.8,
           ease: 'back.out(1.7)',
           delay: 0.3,
-          onComplete: () => gsap.set(fabRef.current, { clearProps: 'transform' })
+          onComplete: () => gsap.set(fabGroupRef.current, { clearProps: 'transform' })
         });
       }
     }
 
-    // Animate counters
     const { violations, passes, incomplete } = results.results;
     const animateCounter = (ref, target) => {
       if (!ref) return;
@@ -63,7 +61,7 @@ const ResultsDisplay = ({ results }) => {
         duration: 1.2,
         ease: 'power2.out',
         onUpdate: () => {
-          ref.innerText = Math.floor(startVal.val);
+          if (ref) ref.innerText = Math.floor(startVal.val);
         },
       });
     };
@@ -75,16 +73,12 @@ const ResultsDisplay = ({ results }) => {
 
   useEffect(() => {
     feather.replace();
-  }, [expandedId, results]);
+  }, [expandedId, results, linkCopied, copiedViolationId]);
 
   if (!results || !results.results) {
     return (
       <div className="results-display-container">
         <p>No results to display.</p>
-        <button ref={fabRef} className="fab-download" disabled>
-          <i dangerouslySetInnerHTML={{ __html: feather.icons.download.toSvg() }} />
-          Download PDF
-        </button>
       </div>
     );
   }
@@ -93,6 +87,29 @@ const ResultsDisplay = ({ results }) => {
 
   const handleToggle = (id) => {
     setExpandedId((prev) => (prev === id ? null : id));
+  };
+
+  const copyLink = async () => {
+    const url = `${window.location.origin}/audit/${results._id}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy link', err);
+    }
+  };
+
+  const copyViolation = async (e, violation) => {
+    e.stopPropagation(); // prevent toggle
+    const text = `[${violation.impact.toUpperCase()}] Violation: ${violation.help} \nDescription: ${violation.description}\nAffected nodes: ${(violation.nodes || []).length}\nMore info: ${violation.helpUrl}`;
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedViolationId(violation.id);
+      setTimeout(() => setCopiedViolationId(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy violation', err);
+    }
   };
 
   const handleDownloadPDF = async () => {
@@ -127,6 +144,8 @@ const ResultsDisplay = ({ results }) => {
   return (
     <div className="results-display-container">
       <div ref={reportRef} className="pdf-content">
+        <AccessibilityScore violations={violations} />
+        
         <header className="results-summary">
           <div className="summary-cards">
             <div className="summary-card violations">
@@ -168,10 +187,24 @@ const ResultsDisplay = ({ results }) => {
                     </span>
                     <p className="violation-description">{violation.help}</p>
                   </div>
-                  <span
-                    className={`toggle-icon ${expandedId === violation.id ? 'expanded' : ''}`}
-                    dangerouslySetInnerHTML={{ __html: feather.icons['chevron-down'].toSvg() }}
-                  />
+                  
+                  <div className="violation-actions">
+                    <button 
+                      className="copy-violation-btn" 
+                      onClick={(e) => copyViolation(e, violation)}
+                      title="Copy issue details"
+                    >
+                      {copiedViolationId === violation.id ? (
+                        <span className="copied-text">Copied!</span>
+                      ) : (
+                        <i dangerouslySetInnerHTML={{ __html: feather.icons.copy.toSvg() }} />
+                      )}
+                    </button>
+                    <span
+                      className={`toggle-icon ${expandedId === violation.id ? 'expanded' : ''}`}
+                      dangerouslySetInnerHTML={{ __html: feather.icons['chevron-down'].toSvg() }}
+                    />
+                  </div>
                 </div>
                 {expandedId === violation.id && (
                   <div className="violation-details">
@@ -196,17 +229,34 @@ const ResultsDisplay = ({ results }) => {
         </div>
       </div>
             
-      <button
-        ref={fabRef}
-        className="fab-download"
-        onClick={handleDownloadPDF}
-        disabled={isDownloading}
-        title="Download PDF Report"
-        style={{ opacity: 1, visibility: 'visible', transition: 'none' }}
-      >
-        <i dangerouslySetInnerHTML={{ __html: feather.icons.download.toSvg() }} />
-        {isDownloading ? 'Preparing...' : 'Download PDF'}
-      </button>
+      <div className="fab-group" ref={fabGroupRef} style={{ opacity: 1, visibility: 'visible', transition: 'none' }}>
+        <button
+          className="fab-btn fab-copy"
+          onClick={copyLink}
+          title="Copy public link"
+        >
+          {linkCopied ? (
+            <>
+              <i dangerouslySetInnerHTML={{ __html: feather.icons.check.toSvg() }} />
+              Copied!
+            </>
+          ) : (
+            <>
+              <i dangerouslySetInnerHTML={{ __html: feather.icons.link.toSvg() }} />
+              Copy Link
+            </>
+          )}
+        </button>
+        <button
+          className="fab-btn fab-download"
+          onClick={handleDownloadPDF}
+          disabled={isDownloading}
+          title="Download PDF Report"
+        >
+          <i dangerouslySetInnerHTML={{ __html: feather.icons.download.toSvg() }} />
+          {isDownloading ? 'Preparing...' : 'Download PDF'}
+        </button>
+      </div>
     </div>
   );
 };
