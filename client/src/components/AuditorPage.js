@@ -34,6 +34,7 @@ const AuditorPage = () => {
         if (id && !results && !isLoading && !error) {
             fetchAuditResults(id);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     useEffect(() => {
